@@ -52,7 +52,8 @@ app.get("/rest" , (req,res)=>{
 //     res.send({message:"food is added" , foodItems})
     
 // })
-console.log(Math.max(...foodItems.map(item => item.id)));
+
+//                console.log(Math.max(...foodItems.map(item => item.id)));
 
 // advance method by this it attomatic takes an id..
 app.post("/rest", (req, res) => {
@@ -63,7 +64,7 @@ app.post("/rest", (req, res) => {
     }
 // advance code no need to add id , or by this no-repative id creates..
     const newId = foodItems.length > 0 ? Math.max(...foodItems.map(item => item.id)) + 1 : 1;
-    const newFoodItem = { id: newId, food, category, price };
+    const newFoodItem = { id: newId, food:food, category:category, price:price };
     foodItems.push(newFoodItem);
     res.status(201).send({ message: "Food added successfully", foodItems });
 });
@@ -115,14 +116,53 @@ if (foodindex!==-1) {
 // full data change...if use half data rest data deleat or only update data shown..
 
 
-app.get("/rest/cart" , (req,res)=>{
+
+
+
+
+
+// cart system
+
+app.get("/cart" , (req,res)=>{
     res.send({message:"hello" ,foodcart})
 })
-app.get("/rest/:id" , (req , res)=>{
+
+
+app.post("/cart/:id" , (req , res)=>{
+    const id = parseInt(req.params.id)
+    const index = foodItems.find(item=>item.id === id);
+
+    if(index!==-1){
+        const newId = foodcart.length > 0 ? Math.max(...foodcart.map(item => item.id)) + 1 : 1;
+        const newFood = { id: newId, food: index.food, category: index.category, price: index.price };
+        foodcart.push(newFood);
+       res.send({message:"food add in cart" , foodcart})
+    }
+    else {
+    
+        res.send({ message: "Food added to cart", foodcart });
+    }
+
+
+})
+
+app.delete("/cart/:id" , (req , res)=>{
 
     const id = parseInt(req.params.id)
-    const index = foodItems.findIndex(item=>item.id === id)
+    const index = foodcart.findIndex(item=>item.id===id);
+
+    if(index!== -1){
+        foodcart.splice(index,1);
+        res.send({message:"food deleat from cart" , foodcart})
+    }
+    else{
+        res.send({message:"nothin found of that id in cart"})
+    }
+
 })
+
+
+
 
 
 
