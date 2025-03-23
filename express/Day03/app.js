@@ -59,12 +59,12 @@ app.get("/rest" , (req,res)=>{
 app.post("/rest", (req, res) => {
     const { food, category, price } = req.body;
     
-    if (!food || !category || !price) {
+    if (!food || !category || !price ) {
         return res.status(400).send({ message: "All fields (food, category, price) are required" });
     }
 // advance code no need to add id , or by this no-repative id creates..
     const newId = foodItems.length > 0 ? Math.max(...foodItems.map(item => item.id)) + 1 : 1;
-    const newFoodItem = { id: newId, food:food, category:category, price:price };
+    const newFoodItem = { id:newId, food:food, category:category, price:price };
     foodItems.push(newFoodItem);
     res.status(201).send({ message: "Food added successfully", foodItems });
 });
@@ -72,6 +72,8 @@ app.post("/rest", (req, res) => {
 app.delete("/rest/:id" , (req , res)=>{
     const id = parseInt(req.params.id);
     const searchfood =foodItems.findIndex(item=>item.id===id) 
+    console.log("id", id);
+    
      
     if (searchfood!==-1) {
         foodItems.splice(searchfood,1)
