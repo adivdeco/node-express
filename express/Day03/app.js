@@ -1,7 +1,6 @@
 
-const { log } = require('console');
 const express =  require ('express');
-const send = require('send');
+const { Auth } = require('./middleware/auth');
 const app = express();
 
 const foodItems = [
@@ -30,21 +29,26 @@ const foodItems = [
 
 app.use(express.json());
 
+
+
+app.use(("/rest" , Auth))
+
+
 app.get("/rest" , (req,res)=>{
     res.send(foodItems);
 })
 
-// app.get("/rest/:id" , (req, res) => {
-//     const id = parseInt(req.params.id);
-//     const searchfood =foodItems.find(item=>item.id===id) 
-//     if (searchfood) {
-//         res.send({message:"food found", food:searchfood})
+app.get("/rest/:id" , (req, res) => {
+    const id = parseInt(req.params.id);
+    const searchfood =foodItems.find(item=>item.id===id) 
+    if (searchfood) {
+        res.send({message:"food found", food:searchfood})
         
-//     }
-//     else{
-//         res.send({message:"no food of that id found..."})
-//     }
-// });
+    }
+    else{
+        res.send({message:"no food of that id found..."})
+    }
+});
 
 // app.post("/rest" , (req,res)=>{
 //     console.log(req.body);
