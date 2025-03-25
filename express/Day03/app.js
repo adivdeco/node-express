@@ -34,7 +34,7 @@ app.use(("/rest" , (req,res)=>{
   const token = "123456";
    const acess = token ==="123456"? 1:0;
 
-  if(!acces){
+  if(!acess){
      res.send({message:"unauthorized"})
   }
   next();
