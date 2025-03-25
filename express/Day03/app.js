@@ -29,7 +29,17 @@ const foodItems = [
 
 app.use(express.json());
 
+app.use(("/rest" , (req,res)=>{
 
+  const token = "123456";
+   const acess = token ==="123456"? 1:0;
+
+  if(!acces){
+     res.send({message:"unauthorized"})
+  }
+  next();
+
+}))
 
 app.use(("/rest" , Auth))
 
